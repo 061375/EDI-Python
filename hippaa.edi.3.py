@@ -192,7 +192,7 @@ class Parser(base_class):
 
 if __name__ == '__main__':
     # Sample usage
-    message = Parser('lowes1.edi')
+    message = Parser('doitbest.edi')
     for segment in message:
         if(len(message.delimiters) > 1):
             elements = segment.split(message.delimiters[1])
