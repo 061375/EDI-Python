@@ -1,6 +1,7 @@
 import array
 import string
 import sys
+import getopt
 
 # http://code.activestate.com/recipes/299485-parsing-out-edi-messages/
 
@@ -189,12 +190,31 @@ class Parser(base_class):
                         except TypeError:
                             raise BadFile('Corrupt characters found in data or unexpected EOF')
 
+'''
+    Get the file from the CMD and then run it
+'''
+def main(argv) :
+    inputfile = ''
+    outputfile = ''
+    try:
+      opts, args = getopt.getopt(argv,"hi:o:",["ifile="])
+    except getopt.GetoptError:
+      print ('hippaa.edi.3.py -i <inputfile>')
+      sys.exit(2)
+    for opt, arg in opts:
+      if opt == '-h':
+         print ('hippaa.edi.3.py -i <inputfile>')
+         sys.exit()
+      elif opt in ("-i", "--ifile"):
+         inputfile = arg
 
-if __name__ == '__main__':
-    # Sample usage
-    message = Parser('doitbest.edi')
+    message = Parser('files/' + arg)
     for segment in message:
         if(len(message.delimiters) > 1):
             elements = segment.split(message.delimiters[1])
             # Dispatch based on elements[0]...
             print(elements)
+
+if __name__ == '__main__':
+    main(sys.argv[1:])  
+    
